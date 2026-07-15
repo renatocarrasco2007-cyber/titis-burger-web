@@ -1,0 +1,5 @@
+name = "titis-burger"
+compatibility_date = "2026-07-15"
+
+[assets]
+directory = "./"
