@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Titi's Burger — Concepción</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0d0b0a;
+    --bg-alt:#141110;
+    --card:#1b1613;
+    --border:rgba(255,255,255,0.08);
+    --white:#f7f3ee;
+    --gray:#a89e93;
+    --gray-dim:#6b6259;
+    --orange:#ff7a1a;
+    --orange-2:#ffb300;
+    --orange-glow:rgba(255,122,26,0.35);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
+  ::selection{background:var(--orange);color:#0d0b0a;}
+  ::-webkit-scrollbar{width:10px;}
+  ::-webkit-scrollbar-track{background:var(--bg);}
+  ::-webkit-scrollbar-thumb{background:var(--orange);border-radius:10px;}
+  a{color:inherit;text-decoration:none;}
+  img{display:block;max-width:100%;}
+  .container{max-width:1160px;margin:0 auto;padding:0 24px;}
+
+  h1,h2,h3,.display{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:1px;line-height:1.02;text-transform:uppercase;}
+
+  .noise-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
+    background:
+      radial-gradient(circle at 15% 8%, rgba(255,122,26,0.14), transparent 42%),
+      radial-gradient(circle at 88% 25%, rgba(255,179,0,0.10), transparent 45%),
+      radial-gradient(circle at 50% 95%, rgba(255,122,26,0.10), transparent 50%);
+  }
+
+  /* ============ NAV ============ */
+  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:all 0.3s ease;border-bottom:1px solid transparent;}
+  nav.scrolled{background:rgba(13,11,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 0;}
+  .nav-inner{display:flex;align-items:center;justify-content:space-between;}
+  .logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:1px;color:var(--white);display:flex;align-items:center;gap:8px;}
+  .logo span{color:var(--orange);}
+  .nav-links{display:flex;gap:30px;font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
+  .nav-links a{color:var(--gray);transition:color 0.2s;}
+  .nav-links a:hover{color:var(--white);}
+  @media(max-width:800px){.nav-links{display:none;}}
+
+  .btn{padding:14px 26px;border-radius:8px;font-weight:800;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.5px;transition:transform 0.2s, box-shadow 0.2s, background 0.2s;display:inline-flex;align-items:center;gap:8px;}
+  .btn-primary{background:linear-gradient(135deg,var(--orange),#e8600a);color:#fff;}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px var(--orange-glow);}
+  .btn-ghost{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.1);}
+
+  /* ============ HERO ============ */
+  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 60px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative;z-index:2;}
+  .eyebrow{color:var(--orange-2);font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,122,26,0.1);border:1px solid rgba(255,122,26,0.3);padding:8px 16px;border-radius:999px;font-family:'Inter',sans-serif;}
+  .hero h1{font-size:clamp(2.8rem,6vw,4.6rem);margin-bottom:20px;}
+  .hero h1 .accent{background:linear-gradient(120deg,var(--orange),var(--orange-2));-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .hero p.lead{color:var(--gray);font-size:1.1rem;max-width:480px;margin-bottom:30px;line-height:1.6;font-family:'Inter',sans-serif;}
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+
+  .hero-photo{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,0.6);}
+  .hero-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;}
+  .hero-badge{position:absolute;bottom:20px;left:20px;background:rgba(13,11,10,0.85);backdrop-filter:blur(8px);border:1px solid rgba(255,122,26,0.4);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:10px;}
+  .hero-badge .dot{width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;}
+  .hero-badge span{font-size:0.85rem;font-weight:700;font-family:'Inter',sans-serif;}
+
+  /* ============ REVEAL ============ */
+  .reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .stagger > *{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease, transform 0.6s ease;}
+  .stagger.in > *{opacity:1;transform:translateY(0);}
+  .stagger.in > *:nth-child(1){transition-delay:0.05s;} .stagger.in > *:nth-child(2){transition-delay:0.1s;}
+  .stagger.in > *:nth-child(3){transition-delay:0.15s;} .stagger.in > *:nth-child(4){transition-delay:0.2s;}
+  .stagger.in > *:nth-child(5){transition-delay:0.25s;} .stagger.in > *:nth-child(6){transition-delay:0.3s;}
+
+  section{position:relative;z-index:1;padding:100px 0;}
+  section.alt{background:var(--bg-alt);}
+  .section-eyebrow{color:var(--orange-2);font-weight:700;font-size:0.8rem;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;display:block;font-family:'Inter',sans-serif;}
+  .section-title{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:16px;}
+  .section-lead{color:var(--gray);max-width:600px;font-size:1rem;line-height:1.6;margin-bottom:50px;font-family:'Inter',sans-serif;}
+
+  /* ============ SOBRE ============ */
+  .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
+  .about-text p{color:#e2dcd4;line-height:1.75;margin-bottom:18px;font-size:1.02rem;font-family:'Inter',sans-serif;}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
+  .badge{padding:9px 16px;border:1px solid var(--border);border-radius:999px;font-size:0.82rem;font-weight:600;color:var(--white);background:rgba(255,255,255,0.03);font-family:'Inter',sans-serif;transition:border-color 0.25s, color 0.25s;}
+  .badge:hover{border-color:var(--orange);color:var(--orange-2);}
+  .about-photos{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  .about-photos img{border-radius:16px;object-fit:cover;width:100%;height:100%;aspect-ratio:1/1;transition:transform 0.4s;}
+  .about-photos a:hover img{transform:scale(1.05);}
+  .about-photos a:nth-child(1){grid-row:span 2;}
+  .about-photos a:nth-child(1) img{aspect-ratio:1/2.08;}
+
+  /* ============ MENU HIGHLIGHTS ============ */
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+  .menu-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:transform 0.3s, border-color 0.3s;}
+  .menu-card:hover{transform:translateY(-6px);border-color:var(--orange);}
+  .menu-icon{font-size:1.8rem;margin-bottom:14px;display:block;}
+  .menu-card h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.02rem;text-transform:none;letter-spacing:0;margin-bottom:8px;}
+  .menu-card p{color:var(--gray);font-size:0.88rem;line-height:1.55;font-family:'Inter',sans-serif;}
+  .menu-note{text-align:center;color:var(--gray-dim);font-size:0.85rem;margin-top:36px;font-family:'Inter',sans-serif;}
+  .menu-note a{color:var(--orange-2);font-weight:700;}
+
+  /* ============ GALERIA ============ */
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
+  .gallery-item{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:1/1;}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
+  .gallery-item:hover img{transform:scale(1.12);}
+  .gallery-overlay{position:absolute;inset:0;background:linear-gradient(180deg, transparent 40%, rgba(13,11,10,0.85));display:flex;align-items:flex-end;padding:14px;opacity:0;transition:opacity 0.3s;}
+  .gallery-item:hover .gallery-overlay{opacity:1;}
+  .gallery-overlay span{font-size:0.78rem;font-weight:700;color:var(--orange-2);font-family:'Inter',sans-serif;}
+
+  /* ============ UBICACION ============ */
+  .location-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;}
+  .map-wrap{border-radius:18px;overflow:hidden;border:1px solid var(--border);min-height:360px;}
+  .map-wrap iframe{width:100%;height:100%;min-height:360px;border:0;}
+  .info-block{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:34px;display:flex;flex-direction:column;justify-content:center;}
+  .info-block h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;text-transform:none;letter-spacing:0;margin-bottom:18px;}
+  .info-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;font-family:'Inter',sans-serif;}
+  .info-row .ic{font-size:1.2rem;flex-shrink:0;}
+  .info-row .txt{color:#e2dcd4;font-size:0.95rem;line-height:1.5;}
+  .info-row .txt a{color:var(--orange-2);font-weight:700;}
+  .platform-links{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
+  .platform-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-weight:700;font-size:0.82rem;font-family:'Inter',sans-serif;transition:border-color 0.2s;}
+  .platform-btn:hover{border-color:var(--orange);}
+
+  /* ============ RESEÑAS (placeholder) ============ */
+  .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
+  .review-card{background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:26px;text-align:center;}
+  .review-card .stars{color:var(--gray-dim);font-size:1.1rem;margin-bottom:12px;letter-spacing:2px;}
+  .review-card p{color:var(--gray-dim);font-size:0.9rem;font-style:italic;font-family:'Inter',sans-serif;line-height:1.5;}
+  .review-note{text-align:center;color:var(--gray-dim);font-size:0.82rem;margin-top:28px;font-family:'Inter',sans-serif;}
+
+  /* ============ CTA FINAL ============ */
+  .cta-final{text-align:center;padding:60px 30px;background:linear-gradient(135deg, rgba(255,122,26,0.14), rgba(255,179,0,0.06));border:1px solid rgba(255,122,26,0.3);border-radius:24px;}
+  .cta-final h2{margin-bottom:16px;font-size:clamp(1.8rem,4vw,2.6rem);}
+  .cta-final p{color:var(--gray);margin-bottom:26px;font-family:'Inter',sans-serif;}
+
+  footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--gray-dim);font-size:0.85rem;font-family:'Inter',sans-serif;}
+  footer a{color:var(--orange-2);font-weight:600;}
+  footer p{margin-bottom:8px;}
+
+  @media (max-width:860px){
+    .hero-grid{grid-template-columns:1fr;}
+    .hero-photo{order:-1;}
+    .about-grid,.location-grid{grid-template-columns:1fr;gap:36px;}
+    .gallery-grid{grid-template-columns:repeat(3,1fr);}
+  }
+  @media (max-width:520px){
+    .gallery-grid{grid-template-columns:repeat(2,1fr);}
+    .about-photos a:nth-child(1){grid-row:auto;}
+    .about-photos a:nth-child(1) img{aspect-ratio:1/1;}
+  }
+</style>
+</head>
+<body>
+
+<div class="noise-bg"></div>
+
+<nav id="nav">
+  <div class="container nav-inner">
+    <div class="logo">🍔 titi's<span>Burger</span></div>
+    <div class="nav-links">
+      <a href="#sobre">Sobre</a>
+      <a href="#menu">Menú</a>
+      <a href="#galeria">Galería</a>
+      <a href="#ubicacion">Ubicación</a>
+    </div>
+    <a class="btn btn-primary" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir ahora</a>
+  </div>
+</nav>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="reveal">
+      <span class="eyebrow">📍 Local nuevo en Concepción</span>
+      <h1>Más que una<br>hamburguesa,<br><span class="accent">es un sabor.</span></h1>
+      <p class="lead">Carne Angus, ingredientes premium y una trilogía que no te vas a olvidar. No somos franquicia — somos Titi's.</p>
+      <div class="hero-ctas">
+        <a class="btn btn-primary" href="https://wa.me/56971025472" target="_blank" rel="noopener">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3 .79.8-2.92-.2-.3A7.94 7.94 0 014 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8z"/></svg>
+          Pedir por WhatsApp
+        </a>
+        <a class="btn btn-ghost" href="#ubicacion">Ver ubicación</a>
+      </div>
+    </div>
+    <div class="hero-photo reveal">
+      <img src="assets/instagram/post-6.jpg" alt="Hamburguesa de Titi's Burger">
+      <div class="hero-badge"><span class="dot"></span><span>Abierto ahora · Concepción</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOBRE ================= -->
+<section id="sobre">
+  <div class="container about-grid">
+    <div class="about-photos stagger">
+      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-5.jpg" alt="La trilogía de Titi's"></a>
+      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-9.jpg" alt="Disfrutando una hamburguesa Titi's"></a>
+      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-7.jpg" alt="Local de Titi's Burger en Concepción"></a>
+    </div>
+    <div class="about-text reveal">
+      <span class="section-eyebrow">Sobre nosotros</span>
+      <h2 class="section-title">Real burger,<br>real sabor</h2>
+      <p>Titi's Burger es un local nuevo en Concepción — no somos franquicia, somos un proyecto propio hecho con carne Angus e ingredientes premium.</p>
+      <p>Si amar las hamburguesas es un error, no queremos tener la razón. Cada burger sale de nuestra cocina, sin atajos.</p>
+      <div class="badges">
+        <span class="badge">Carne Angus</span>
+        <span class="badge">Ingredientes Premium</span>
+        <span class="badge">Local Propio</span>
+        <span class="badge">Hecho al Momento</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= MENU ================= -->
+<section id="menu" class="alt">
+  <div class="container">
+    <span class="section-eyebrow reveal">Nuestra carta</span>
+    <h2 class="section-title reveal">Algunas de nuestras favoritas</h2>
+    <p class="section-lead reveal">Smash burgers, completos y la famosa trilogía — carta completa y precios actualizados por WhatsApp.</p>
+
+    <div class="menu-grid stagger">
+      <div class="menu-card">
+        <span class="menu-icon">🍔</span>
+        <h3>La Trilogía de Titi's</h3>
+        <p>Tres burgers, tres estilos — para compartir o para probarlas todas tú solo.</p>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🧀</span>
+        <h3>Bacon Jam & Blue Cheese</h3>
+        <p>Nuestras firmas de autor, con mermelada de tocino y queso azul.</p>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🌭</span>
+        <h3>Completos Italiano y Alemán</h3>
+        <p>Los clásicos, a la manera de Titi's.</p>
+      </div>
+      <div class="menu-card">
+        <span class="menu-icon">🍟</span>
+        <h3>Papas y acompañamientos</h3>
+        <p>Para completar cualquier pedido.</p>
+      </div>
+    </div>
+
+    <p class="menu-note">¿Quieres ver la carta completa con precios? <a href="https://wa.me/56971025472" target="_blank" rel="noopener">Escríbenos por WhatsApp →</a></p>
+  </div>
+</section>
+
+<!-- ================= GALERIA ================= -->
+<section id="galeria">
+  <div class="container">
+    <span class="section-eyebrow reveal">Galería</span>
+    <h2 class="section-title reveal">Directo desde la cocina</h2>
+    <p class="section-lead reveal">Fotos reales de @titisburger.cl.</p>
+    <div class="gallery-grid stagger">
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-1.jpg" alt="Post 1"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-3.jpg" alt="Post 2"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-4.jpg" alt="Post 3"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-2.jpg" alt="Post 4"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-8.jpg" alt="Post 5"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-6.jpg" alt="Post 6"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-9.jpg" alt="Post 7"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-5.jpg" alt="Post 8"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= UBICACION ================= -->
+<section id="ubicacion" class="alt">
+  <div class="container">
+    <span class="section-eyebrow reveal">Ubicación</span>
+    <h2 class="section-title reveal">Visítanos o pide a domicilio</h2>
+
+    <div class="location-grid">
+      <div class="map-wrap reveal">
+        <iframe src="https://www.google.com/maps?q=Maip%C3%BA+1519,+Concepci%C3%B3n,+Chile&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </div>
+      <div class="info-block reveal">
+        <h3>Encuéntranos</h3>
+        <div class="info-row"><span class="ic">📍</span><span class="txt">Maipú 1519, Concepción, Chile</span></div>
+        <div class="info-row"><span class="ic">📲</span><span class="txt"><a href="https://wa.me/56971025472" target="_blank" rel="noopener">+56 9 7102 5472</a></span></div>
+        <div class="info-row"><span class="ic">📸</span><span class="txt"><a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener">@titisburger.cl</a></span></div>
+        <div class="info-row">
+          <span class="ic">🛵</span>
+          <span class="txt">
+            También pide a domicilio:
+            <div class="platform-links">
+              <span class="platform-btn">PedidosYa</span>
+            </div>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= RESEÑAS ================= -->
+<section id="resenas">
+  <div class="container">
+    <span class="section-eyebrow reveal">Reseñas</span>
+    <h2 class="section-title reveal">Lo que dicen nuestros clientes</h2>
+    <p class="section-lead reveal">Somos un local nuevo — aquí irán las reseñas reales de nuestros primeros clientes.</p>
+
+    <div class="reviews-grid stagger">
+      <div class="review-card">
+        <div class="stars">☆☆☆☆☆</div>
+        <p>"Aquí aparecerá tu primera reseña real"</p>
+      </div>
+      <div class="review-card">
+        <div class="stars">☆☆☆☆☆</div>
+        <p>"Espacio reservado para reseñas de clientes"</p>
+      </div>
+      <div class="review-card">
+        <div class="stars">☆☆☆☆☆</div>
+        <p>"Pronto aquí — tu opinión cuenta"</p>
+      </div>
+    </div>
+    <p class="review-note">Sección de ejemplo — se reemplaza por reseñas reales apenas estén disponibles (Google, Instagram, etc.)</p>
+  </div>
+</section>
+
+<!-- ================= CTA FINAL ================= -->
+<section class="alt">
+  <div class="container">
+    <div class="cta-final reveal">
+      <h2>¿Se te antojó?</h2>
+      <p>Pide ahora mismo por WhatsApp — respuesta rápida, sin vueltas.</p>
+      <a class="btn btn-primary" style="display:inline-flex;" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p><strong>Titi's Burger</strong> — Maipú 1519, Concepción, Chile</p>
+  <p>© <span id="year"></span> Titi's Burger · <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener">@titisburger.cl</a></p>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 40);
+  });
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('in');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
