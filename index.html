@@ -71,7 +71,7 @@
   .hero{position:relative;z-index:1;padding:150px 0 0;overflow:hidden;}
   .hero-inner{position:relative;display:grid;grid-template-columns:1.1fr 0.9fr;align-items:center;gap:20px;min-height:76vh;}
   .hero-copy{position:relative;z-index:3;}
-  .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);font-weight:800;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;padding:8px 16px;border-radius:999px;margin-bottom:24px;transform:rotate(-2deg);}
+  .kicker{display:inline-flex;align-items:center;gap:10px;background:var(--ink);color:var(--paper);font-weight:800;font-size:1.05rem;text-transform:uppercase;letter-spacing:1px;padding:14px 26px;border-radius:999px;margin-bottom:28px;transform:rotate(-2deg);border:3px solid var(--ink);box-shadow:5px 5px 0 var(--red);}
   .hero h1{font-size:clamp(2.6rem,6.6vw,5.2rem);margin-bottom:24px;}
   .hero h1 .hl{background:var(--red);color:var(--paper);padding:0 12px;display:inline-block;transform:rotate(-1.5deg);box-shadow:5px 5px 0 var(--ink);}
   .hero p.lead{color:var(--gray);font-size:1.1rem;max-width:440px;margin-bottom:34px;line-height:1.6;font-weight:500;}
@@ -124,6 +124,14 @@
   .menu-card p{color:var(--gray);font-size:0.88rem;line-height:1.55;font-weight:500;}
   .menu-note{text-align:center;color:var(--gray);font-size:0.9rem;margin-top:40px;font-weight:600;}
   .menu-note a{color:var(--red);font-weight:800;}
+
+  .menu-list{background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:8px 30px;box-shadow:7px 7px 0 var(--ink);margin-bottom:36px;}
+  .menu-row{display:flex;justify-content:space-between;align-items:baseline;gap:16px;padding:18px 0;border-bottom:2px dashed var(--line);}
+  .menu-row:last-child{border-bottom:none;}
+  .menu-row .mname{font-weight:800;font-size:1rem;}
+  .menu-row .mdesc{color:var(--gray);font-size:0.84rem;font-weight:500;margin-top:3px;}
+  .menu-row .mprice{font-family:'Alfa Slab One',serif;font-size:1.15rem;color:var(--red);white-space:nowrap;flex-shrink:0;}
+  .menu-row .mprice.tbd{font-family:'Inter',sans-serif;font-size:0.78rem;font-weight:800;color:var(--gray);text-transform:uppercase;letter-spacing:0.3px;}
 
   /* ============ GALERIA ============ */
   .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
@@ -208,8 +216,8 @@
       <h1>Más que una<br>hamburguesa,<br>es un <span class="hl">sabor</span>.</h1>
       <p class="lead">Carne Angus, ingredientes premium y una trilogía que no te vas a olvidar. No somos franquicia — somos Titi's.</p>
       <div class="hero-ctas">
-        <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
-        <a class="btn-sticker alt" href="#ubicacion">Ver ubicación</a>
+        <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">📲 Pedir por WhatsApp</a>
+        <a class="btn-sticker alt" href="#menu">🛵 También en PedidosYa</a>
       </div>
     </div>
     <div class="hero-photo-wrap reveal">
@@ -255,33 +263,45 @@
 <section id="menu" class="alt angled-both">
   <div class="container">
     <span class="section-eyebrow reveal">Nuestra carta</span>
-    <h2 class="section-title reveal">Algunas de nuestras favoritas</h2>
-    <p class="section-lead reveal">Smash burgers, completos y la famosa trilogía — carta completa y precios actualizados por WhatsApp.</p>
+    <h2 class="section-title reveal">El menú</h2>
+    <p class="section-lead reveal">Nuestras favoritas. Precios sujetos a confirmación — te los actualizamos al tiro por WhatsApp.</p>
 
-    <div class="menu-grid stagger">
-      <div class="menu-card">
-        <span class="menu-icon">🍔</span>
-        <h3>La Trilogía de Titi's</h3>
-        <p>Tres burgers, tres estilos — para compartir o para probarlas todas tú solo.</p>
+    <div class="menu-list reveal">
+      <div class="menu-row">
+        <div><div class="mname">🍔 Urbana Burguer</div><div class="mdesc">Una de las tres de La Trilogía de Titi's.</div></div>
+        <span class="mprice tbd">Consultar</span>
       </div>
-      <div class="menu-card">
-        <span class="menu-icon">🧀</span>
-        <h3>Bacon Jam & Blue Cheese</h3>
-        <p>Nuestras firmas de autor, con mermelada de tocino y queso azul.</p>
+      <div class="menu-row">
+        <div><div class="mname">🍔 Aloha Burguer</div><div class="mdesc">Otra de La Trilogía — con su toque propio.</div></div>
+        <span class="mprice tbd">Consultar</span>
       </div>
-      <div class="menu-card">
-        <span class="menu-icon">🌭</span>
-        <h3>Completos Italiano y Alemán</h3>
-        <p>Los clásicos, a la manera de Titi's.</p>
+      <div class="menu-row">
+        <div><div class="mname">🥓 Bacon Jam</div><div class="mdesc">Firma de autor, con mermelada de tocino.</div></div>
+        <span class="mprice">$8.900</span>
       </div>
-      <div class="menu-card">
-        <span class="menu-icon">🍟</span>
-        <h3>Papas y acompañamientos</h3>
-        <p>Para completar cualquier pedido.</p>
+      <div class="menu-row">
+        <div><div class="mname">🧀 Blue Cheese</div><div class="mdesc">Con queso azul, para los que se atreven.</div></div>
+        <span class="mprice tbd">Consultar</span>
+      </div>
+      <div class="menu-row">
+        <div><div class="mname">🧀 Cheese Burger</div><div class="mdesc">La clásica, bien hecha.</div></div>
+        <span class="mprice tbd">Consultar</span>
+      </div>
+      <div class="menu-row">
+        <div><div class="mname">🌭 Completo Italiano</div><div class="mdesc">Tomate, palta y mayo.</div></div>
+        <span class="mprice tbd">Consultar</span>
+      </div>
+      <div class="menu-row">
+        <div><div class="mname">🌭 Completo Alemán</div><div class="mdesc">Chucrut, tomate y queso rallado.</div></div>
+        <span class="mprice tbd">Consultar</span>
+      </div>
+      <div class="menu-row">
+        <div><div class="mname">🍟 Papas fritas</div><div class="mdesc">Para acompañar cualquier pedido.</div></div>
+        <span class="mprice tbd">Consultar</span>
       </div>
     </div>
 
-    <p class="menu-note">¿Quieres ver la carta completa con precios? <a href="https://wa.me/56971025472" target="_blank" rel="noopener">Escríbenos por WhatsApp →</a></p>
+    <p class="menu-note">Carta real de Titi's Burger. ¿Vas a pedir? <a href="https://wa.me/56971025472" target="_blank" rel="noopener">Confirma tu pedido y precios por WhatsApp →</a></p>
   </div>
 </section>
 
@@ -354,8 +374,11 @@
   <div class="container">
     <div class="cta-final reveal">
       <h2>¿Se te antojó?</h2>
-      <p>Pide ahora mismo por WhatsApp — respuesta rápida, sin vueltas.</p>
-      <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      <p>Pide ahora mismo por WhatsApp o encuéntranos en PedidosYa — respuesta rápida, sin vueltas.</p>
+      <div class="hero-ctas" style="justify-content:center;">
+        <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">📲 Pedir por WhatsApp</a>
+        <a class="btn-sticker alt" href="#ubicacion">🛵 Ver en PedidosYa</a>
+      </div>
     </div>
   </div>
 </section>
