@@ -6,207 +6,235 @@
 <title>Titi's Burger — Concepción</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Alfa+Slab+One&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:#0d0b0a;
-    --bg-alt:#141110;
-    --card:#1b1613;
-    --border:rgba(255,255,255,0.08);
-    --white:#f7f3ee;
-    --gray:#a89e93;
-    --gray-dim:#6b6259;
-    --orange:#ff7a1a;
-    --orange-2:#ffb300;
-    --orange-glow:rgba(255,122,26,0.35);
+    --bg:#f2ead9;
+    --bg-alt:#e9dcbd;
+    --paper:#faf5e9;
+    --ink:#211712;
+    --gray:#5c5347;
+    --red:#d62828;
+    --red-dark:#a81f1f;
+    --mustard:#e8a92d;
+    --line:rgba(33,23,18,0.14);
   }
   *{margin:0;padding:0;box-sizing:border-box;}
   html{scroll-behavior:smooth;}
-  body{background:var(--bg);color:var(--white);font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;}
-  ::selection{background:var(--orange);color:#0d0b0a;}
-  ::-webkit-scrollbar{width:10px;}
-  ::-webkit-scrollbar-track{background:var(--bg);}
-  ::-webkit-scrollbar-thumb{background:var(--orange);border-radius:10px;}
+  body{background:var(--bg);color:var(--ink);font-family:'Inter',sans-serif;overflow-x:hidden;-webkit-font-smoothing:antialiased;cursor:default;}
+  ::selection{background:var(--red);color:var(--paper);}
   a{color:inherit;text-decoration:none;}
   img{display:block;max-width:100%;}
   .container{max-width:1160px;margin:0 auto;padding:0 24px;}
 
-  h1,h2,h3,.display{font-family:'Bebas Neue',sans-serif;font-weight:400;letter-spacing:1px;line-height:1.02;text-transform:uppercase;}
+  h1,h2,h3,.display{font-family:'Alfa Slab One',serif;font-weight:400;line-height:0.98;letter-spacing:-0.5px;}
 
-  .noise-bg{position:fixed;inset:0;z-index:0;pointer-events:none;
-    background:
-      radial-gradient(circle at 15% 8%, rgba(255,122,26,0.14), transparent 42%),
-      radial-gradient(circle at 88% 25%, rgba(255,179,0,0.10), transparent 45%),
-      radial-gradient(circle at 50% 95%, rgba(255,122,26,0.10), transparent 50%);
-  }
+  /* ============ TEXTURE ============ */
+  .halftone{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0.05;
+    background-image:radial-gradient(circle, var(--ink) 1px, transparent 1.4px);
+    background-size:14px 14px;}
 
-  /* ============ NAV ============ */
-  nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:18px 0;transition:all 0.3s ease;border-bottom:1px solid transparent;}
-  nav.scrolled{background:rgba(13,11,10,0.88);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid var(--border);padding:12px 0;}
-  .nav-inner{display:flex;align-items:center;justify-content:space-between;}
-  .logo{font-family:'Bebas Neue',sans-serif;font-size:1.7rem;letter-spacing:1px;color:var(--white);display:flex;align-items:center;gap:8px;}
-  .logo span{color:var(--orange);}
-  .nav-links{display:flex;gap:30px;font-size:0.85rem;font-weight:600;text-transform:uppercase;letter-spacing:0.5px;}
-  .nav-links a{color:var(--gray);transition:color 0.2s;}
-  .nav-links a:hover{color:var(--white);}
-  @media(max-width:800px){.nav-links{display:none;}}
+  /* ============ ROTATING STAMP BADGE (logo) ============ */
+  .stamp-badge{position:fixed;top:22px;right:22px;width:96px;height:96px;z-index:100;cursor:pointer;transition:transform 0.3s;}
+  .stamp-badge:hover{transform:scale(1.08);}
+  .stamp-badge svg{width:100%;height:100%;animation:spin 16s linear infinite;}
+  .stamp-center{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:1.7rem;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  @media(max-width:700px){.stamp-badge{width:68px;height:68px;top:14px;right:14px;}.stamp-center{font-size:1.2rem;}}
 
-  .btn{padding:14px 26px;border-radius:8px;font-weight:800;font-size:0.88rem;text-transform:uppercase;letter-spacing:0.5px;transition:transform 0.2s, box-shadow 0.2s, background 0.2s;display:inline-flex;align-items:center;gap:8px;}
-  .btn-primary{background:linear-gradient(135deg,var(--orange),#e8600a);color:#fff;}
-  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 14px 30px var(--orange-glow);}
-  .btn-ghost{background:rgba(255,255,255,0.06);color:var(--white);border:1px solid var(--border);}
-  .btn-ghost:hover{background:rgba(255,255,255,0.1);}
+  /* ============ FLOATING DOCK NAV ============ */
+  .dock{position:fixed;bottom:22px;left:50%;transform:translateX(-50%);z-index:100;
+    background:var(--paper);border:3px solid var(--ink);border-radius:999px;
+    padding:10px 10px;display:flex;gap:4px;box-shadow:6px 6px 0 var(--ink);}
+  .dock a{padding:10px 16px;border-radius:999px;font-weight:800;font-size:0.78rem;text-transform:uppercase;letter-spacing:0.4px;color:var(--ink);transition:background 0.2s, color 0.2s;}
+  .dock a:hover{background:var(--ink);color:var(--paper);}
+  .dock a.order{background:var(--red);color:var(--paper);}
+  .dock a.order:hover{background:var(--red-dark);}
+  @media(max-width:700px){.dock{gap:2px;padding:8px;}.dock a{padding:8px 10px;font-size:0.66rem;}}
+  @media(max-width:520px){.dock span.hide-mobile{display:none;}}
+
+  /* ============ STICKER BUTTON ============ */
+  .btn-sticker{display:inline-flex;align-items:center;gap:8px;padding:16px 30px;background:var(--mustard);color:var(--ink);
+    font-weight:800;font-size:0.95rem;text-transform:uppercase;letter-spacing:0.4px;border:3px solid var(--ink);border-radius:10px;
+    box-shadow:5px 5px 0 var(--ink);transition:transform 0.15s, box-shadow 0.15s;}
+  .btn-sticker:hover{transform:translate(-3px,-3px);box-shadow:8px 8px 0 var(--ink);}
+  .btn-sticker:active{transform:translate(0,0);box-shadow:2px 2px 0 var(--ink);}
+  .btn-sticker.alt{background:var(--paper);}
+
+  /* ============ MARQUEE ============ */
+  .marquee{background:var(--red);border-top:3px solid var(--ink);border-bottom:3px solid var(--ink);padding:16px 0;overflow:hidden;position:relative;z-index:2;}
+  .marquee-track{display:flex;gap:40px;white-space:nowrap;animation:marquee 22s linear infinite;width:max-content;}
+  .marquee-track span{font-family:'Alfa Slab One',serif;font-size:1.3rem;color:var(--paper);text-transform:uppercase;display:flex;align-items:center;gap:40px;}
+  @keyframes marquee{from{transform:translateX(0);}to{transform:translateX(-50%);}}
 
   /* ============ HERO ============ */
-  .hero{position:relative;min-height:100vh;display:flex;align-items:center;padding:120px 0 60px;overflow:hidden;}
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:50px;align-items:center;position:relative;z-index:2;}
-  .eyebrow{color:var(--orange-2);font-weight:700;font-size:0.85rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:16px;display:inline-flex;align-items:center;gap:8px;background:rgba(255,122,26,0.1);border:1px solid rgba(255,122,26,0.3);padding:8px 16px;border-radius:999px;font-family:'Inter',sans-serif;}
-  .hero h1{font-size:clamp(2.8rem,6vw,4.6rem);margin-bottom:20px;}
-  .hero h1 .accent{background:linear-gradient(120deg,var(--orange),var(--orange-2));-webkit-background-clip:text;background-clip:text;color:transparent;}
-  .hero p.lead{color:var(--gray);font-size:1.1rem;max-width:480px;margin-bottom:30px;line-height:1.6;font-family:'Inter',sans-serif;}
-  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .hero{position:relative;z-index:1;padding:150px 0 0;overflow:hidden;}
+  .hero-inner{position:relative;display:grid;grid-template-columns:1.1fr 0.9fr;align-items:center;gap:20px;min-height:76vh;}
+  .hero-copy{position:relative;z-index:3;}
+  .kicker{display:inline-flex;align-items:center;gap:8px;background:var(--ink);color:var(--paper);font-weight:800;font-size:0.78rem;text-transform:uppercase;letter-spacing:1px;padding:8px 16px;border-radius:999px;margin-bottom:24px;transform:rotate(-2deg);}
+  .hero h1{font-size:clamp(2.6rem,6.6vw,5.2rem);margin-bottom:24px;}
+  .hero h1 .hl{background:var(--red);color:var(--paper);padding:0 12px;display:inline-block;transform:rotate(-1.5deg);box-shadow:5px 5px 0 var(--ink);}
+  .hero p.lead{color:var(--gray);font-size:1.1rem;max-width:440px;margin-bottom:34px;line-height:1.6;font-weight:500;}
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;}
 
-  .hero-photo{position:relative;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px rgba(0,0,0,0.6);}
-  .hero-photo img{width:100%;height:100%;object-fit:cover;aspect-ratio:4/5;}
-  .hero-badge{position:absolute;bottom:20px;left:20px;background:rgba(13,11,10,0.85);backdrop-filter:blur(8px);border:1px solid rgba(255,122,26,0.4);border-radius:14px;padding:14px 18px;display:flex;align-items:center;gap:10px;}
-  .hero-badge .dot{width:10px;height:10px;border-radius:50%;background:#4ade80;box-shadow:0 0 10px #4ade80;}
-  .hero-badge span{font-size:0.85rem;font-weight:700;font-family:'Inter',sans-serif;}
+  .hero-photo-wrap{position:relative;z-index:2;}
+  .hero-photo{position:relative;border:4px solid var(--ink);border-radius:16px;overflow:hidden;box-shadow:12px 12px 0 var(--red);transform:rotate(3deg);}
+  .hero-photo img{width:100%;aspect-ratio:4/5;object-fit:cover;filter:sepia(0.15) saturate(1.15);}
+  .open-tag{position:absolute;top:-18px;left:-22px;background:var(--mustard);border:3px solid var(--ink);border-radius:50%;
+    width:100px;height:100px;display:flex;align-items:center;justify-content:center;text-align:center;padding:8px;
+    font-family:'Alfa Slab One',serif;font-size:0.62rem;line-height:1.3;letter-spacing:0.3px;transform:rotate(-12deg);box-shadow:4px 4px 0 var(--ink);z-index:4;}
 
   /* ============ REVEAL ============ */
-  .reveal{opacity:0;transform:translateY(36px);transition:opacity 0.7s ease, transform 0.7s ease;}
+  .reveal{opacity:0;transform:translateY(30px);transition:opacity 0.6s ease, transform 0.6s ease;}
   .reveal.in{opacity:1;transform:translateY(0);}
-  .stagger > *{opacity:0;transform:translateY(28px);transition:opacity 0.6s ease, transform 0.6s ease;}
+  .tilt-in{opacity:0;transform:translateY(24px) rotate(-4deg);transition:opacity 0.55s ease, transform 0.55s ease;}
+  .tilt-in.in{opacity:1;transform:translateY(0) rotate(var(--tilt,-2deg));}
+  .stagger > *{opacity:0;transform:translateY(22px);transition:opacity 0.5s ease, transform 0.5s ease;}
   .stagger.in > *{opacity:1;transform:translateY(0);}
   .stagger.in > *:nth-child(1){transition-delay:0.05s;} .stagger.in > *:nth-child(2){transition-delay:0.1s;}
   .stagger.in > *:nth-child(3){transition-delay:0.15s;} .stagger.in > *:nth-child(4){transition-delay:0.2s;}
   .stagger.in > *:nth-child(5){transition-delay:0.25s;} .stagger.in > *:nth-child(6){transition-delay:0.3s;}
+  .stagger.in > *:nth-child(7){transition-delay:0.35s;} .stagger.in > *:nth-child(8){transition-delay:0.4s;}
 
-  section{position:relative;z-index:1;padding:100px 0;}
+  /* ============ SECTIONS w/ angled edges ============ */
+  section{position:relative;z-index:1;padding:110px 0;}
+  .angled-top{clip-path:polygon(0 24px, 100% 0, 100% 100%, 0 100%);margin-top:-24px;}
+  .angled-both{clip-path:polygon(0 24px, 100% 0, 100% calc(100% - 24px), 0 100%);margin-top:-24px;margin-bottom:-24px;}
   section.alt{background:var(--bg-alt);}
-  .section-eyebrow{color:var(--orange-2);font-weight:700;font-size:0.8rem;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:14px;display:block;font-family:'Inter',sans-serif;}
-  .section-title{font-size:clamp(2rem,4.5vw,3rem);margin-bottom:16px;}
-  .section-lead{color:var(--gray);max-width:600px;font-size:1rem;line-height:1.6;margin-bottom:50px;font-family:'Inter',sans-serif;}
+  .section-eyebrow{color:var(--red);font-weight:800;font-size:0.8rem;letter-spacing:2px;text-transform:uppercase;margin-bottom:14px;display:block;}
+  .section-title{font-size:clamp(2rem,4.6vw,3.1rem);margin-bottom:18px;}
+  .section-lead{color:var(--gray);max-width:560px;font-size:1.02rem;line-height:1.6;margin-bottom:50px;font-weight:500;}
 
   /* ============ SOBRE ============ */
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-  .about-text p{color:#e2dcd4;line-height:1.75;margin-bottom:18px;font-size:1.02rem;font-family:'Inter',sans-serif;}
-  .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px;}
-  .badge{padding:9px 16px;border:1px solid var(--border);border-radius:999px;font-size:0.82rem;font-weight:600;color:var(--white);background:rgba(255,255,255,0.03);font-family:'Inter',sans-serif;transition:border-color 0.25s, color 0.25s;}
-  .badge:hover{border-color:var(--orange);color:var(--orange-2);}
-  .about-photos{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-  .about-photos img{border-radius:16px;object-fit:cover;width:100%;height:100%;aspect-ratio:1/1;transition:transform 0.4s;}
-  .about-photos a:hover img{transform:scale(1.05);}
-  .about-photos a:nth-child(1){grid-row:span 2;}
-  .about-photos a:nth-child(1) img{aspect-ratio:1/2.08;}
+  .about-text p{color:#3a2f26;line-height:1.75;margin-bottom:18px;font-size:1.02rem;font-weight:500;}
+  .badges{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px;}
+  .badge{padding:9px 16px;border:2px solid var(--ink);border-radius:999px;font-size:0.8rem;font-weight:800;color:var(--ink);background:var(--paper);text-transform:uppercase;letter-spacing:0.3px;}
+  .about-photos{position:relative;height:420px;}
+  .about-photos img{position:absolute;border:4px solid var(--ink);border-radius:14px;object-fit:cover;box-shadow:8px 8px 0 var(--ink);}
+  .about-photos .p1{width:62%;top:0;left:0;aspect-ratio:1/1;z-index:2;transform:rotate(-4deg);}
+  .about-photos .p2{width:52%;bottom:0;right:0;aspect-ratio:1/1;z-index:3;transform:rotate(5deg);}
 
-  /* ============ MENU HIGHLIGHTS ============ */
-  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
-  .menu-card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:28px 24px;transition:transform 0.3s, border-color 0.3s;}
-  .menu-card:hover{transform:translateY(-6px);border-color:var(--orange);}
-  .menu-icon{font-size:1.8rem;margin-bottom:14px;display:block;}
-  .menu-card h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.02rem;text-transform:none;letter-spacing:0;margin-bottom:8px;}
-  .menu-card p{color:var(--gray);font-size:0.88rem;line-height:1.55;font-family:'Inter',sans-serif;}
-  .menu-note{text-align:center;color:var(--gray-dim);font-size:0.85rem;margin-top:36px;font-family:'Inter',sans-serif;}
-  .menu-note a{color:var(--orange-2);font-weight:700;}
+  /* ============ MENU ============ */
+  .menu-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px;}
+  .menu-card{background:var(--paper);border:3px solid var(--ink);border-radius:14px;padding:28px 24px;box-shadow:6px 6px 0 var(--ink);transition:transform 0.2s, box-shadow 0.2s;}
+  .menu-card:hover{transform:translate(-3px,-3px);box-shadow:9px 9px 0 var(--ink);}
+  .menu-icon{font-size:1.9rem;margin-bottom:14px;display:block;}
+  .menu-card h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.02rem;letter-spacing:0;margin-bottom:8px;text-transform:none;}
+  .menu-card p{color:var(--gray);font-size:0.88rem;line-height:1.55;font-weight:500;}
+  .menu-note{text-align:center;color:var(--gray);font-size:0.9rem;margin-top:40px;font-weight:600;}
+  .menu-note a{color:var(--red);font-weight:800;}
 
   /* ============ GALERIA ============ */
-  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;}
-  .gallery-item{position:relative;border-radius:14px;overflow:hidden;aspect-ratio:1/1;}
-  .gallery-item img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s;}
-  .gallery-item:hover img{transform:scale(1.12);}
-  .gallery-overlay{position:absolute;inset:0;background:linear-gradient(180deg, transparent 40%, rgba(13,11,10,0.85));display:flex;align-items:flex-end;padding:14px;opacity:0;transition:opacity 0.3s;}
-  .gallery-item:hover .gallery-overlay{opacity:1;}
-  .gallery-overlay span{font-size:0.78rem;font-weight:700;color:var(--orange-2);font-family:'Inter',sans-serif;}
+  .gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .gallery-item{position:relative;border:3px solid var(--ink);border-radius:12px;overflow:hidden;aspect-ratio:1/1;transition:transform 0.25s;}
+  .gallery-item:nth-child(even){transform:rotate(-2deg);}
+  .gallery-item:nth-child(odd){transform:rotate(2deg);}
+  .gallery-item:hover{transform:scale(1.05) rotate(0deg);z-index:5;}
+  .gallery-item img{width:100%;height:100%;object-fit:cover;filter:sepia(0.1) saturate(1.1);}
 
   /* ============ UBICACION ============ */
   .location-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:stretch;}
-  .map-wrap{border-radius:18px;overflow:hidden;border:1px solid var(--border);min-height:360px;}
+  .map-wrap{border:4px solid var(--ink);border-radius:16px;overflow:hidden;min-height:360px;box-shadow:8px 8px 0 var(--ink);}
   .map-wrap iframe{width:100%;height:100%;min-height:360px;border:0;}
-  .info-block{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:34px;display:flex;flex-direction:column;justify-content:center;}
-  .info-block h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;text-transform:none;letter-spacing:0;margin-bottom:18px;}
-  .info-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;font-family:'Inter',sans-serif;}
+  .info-block{background:var(--paper);border:3px solid var(--ink);border-radius:16px;padding:34px;display:flex;flex-direction:column;justify-content:center;box-shadow:6px 6px 0 var(--ink);}
+  .info-block h3{font-family:'Inter',sans-serif;font-weight:800;font-size:1.1rem;margin-bottom:18px;text-transform:none;}
+  .info-row{display:flex;gap:14px;align-items:flex-start;margin-bottom:18px;}
   .info-row .ic{font-size:1.2rem;flex-shrink:0;}
-  .info-row .txt{color:#e2dcd4;font-size:0.95rem;line-height:1.5;}
-  .info-row .txt a{color:var(--orange-2);font-weight:700;}
+  .info-row .txt{color:#3a2f26;font-size:0.95rem;line-height:1.5;font-weight:500;}
+  .info-row .txt a{color:var(--red);font-weight:800;}
   .platform-links{display:flex;gap:10px;margin-top:10px;flex-wrap:wrap;}
-  .platform-btn{display:flex;align-items:center;gap:8px;padding:10px 16px;border:1px solid var(--border);border-radius:10px;font-weight:700;font-size:0.82rem;font-family:'Inter',sans-serif;transition:border-color 0.2s;}
-  .platform-btn:hover{border-color:var(--orange);}
+  .platform-btn{display:flex;align-items:center;gap:8px;padding:9px 16px;border:2px solid var(--ink);border-radius:8px;font-weight:800;font-size:0.8rem;}
 
-  /* ============ RESEÑAS (placeholder) ============ */
-  .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:20px;}
-  .review-card{background:var(--card);border:1px dashed var(--border);border-radius:16px;padding:26px;text-align:center;}
-  .review-card .stars{color:var(--gray-dim);font-size:1.1rem;margin-bottom:12px;letter-spacing:2px;}
-  .review-card p{color:var(--gray-dim);font-size:0.9rem;font-style:italic;font-family:'Inter',sans-serif;line-height:1.5;}
-  .review-note{text-align:center;color:var(--gray-dim);font-size:0.82rem;margin-top:28px;font-family:'Inter',sans-serif;}
+  /* ============ RESEÑAS ============ */
+  .reviews-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:20px;}
+  .review-card{background:var(--paper);border:3px dashed var(--ink);border-radius:14px;padding:26px;text-align:center;}
+  .review-card .stars{color:var(--gray);font-size:1.1rem;margin-bottom:12px;letter-spacing:2px;}
+  .review-card p{color:var(--gray);font-size:0.9rem;font-style:italic;line-height:1.5;font-weight:500;}
+  .review-note{text-align:center;color:var(--gray);font-size:0.85rem;margin-top:28px;font-weight:600;}
 
   /* ============ CTA FINAL ============ */
-  .cta-final{text-align:center;padding:60px 30px;background:linear-gradient(135deg, rgba(255,122,26,0.14), rgba(255,179,0,0.06));border:1px solid rgba(255,122,26,0.3);border-radius:24px;}
-  .cta-final h2{margin-bottom:16px;font-size:clamp(1.8rem,4vw,2.6rem);}
-  .cta-final p{color:var(--gray);margin-bottom:26px;font-family:'Inter',sans-serif;}
+  .cta-final{text-align:center;padding:64px 30px;background:var(--ink);border-radius:22px;position:relative;overflow:hidden;}
+  .cta-final h2{margin-bottom:16px;font-size:clamp(1.9rem,4.4vw,2.8rem);color:var(--paper);}
+  .cta-final p{color:#cfc6b8;margin-bottom:28px;font-weight:500;}
 
-  footer{padding:40px 0;border-top:1px solid var(--border);text-align:center;color:var(--gray-dim);font-size:0.85rem;font-family:'Inter',sans-serif;}
-  footer a{color:var(--orange-2);font-weight:600;}
+  footer{padding:110px 0 40px;text-align:center;color:var(--gray);font-size:0.88rem;font-weight:600;}
+  footer strong{color:var(--ink);}
+  footer a{color:var(--red);font-weight:800;}
   footer p{margin-bottom:8px;}
 
   @media (max-width:860px){
-    .hero-grid{grid-template-columns:1fr;}
-    .hero-photo{order:-1;}
-    .about-grid,.location-grid{grid-template-columns:1fr;gap:36px;}
+    .hero-inner{grid-template-columns:1fr;min-height:auto;padding-bottom:60px;}
+    .about-grid,.location-grid{grid-template-columns:1fr;gap:40px;}
+    .about-photos{height:340px;margin-top:20px;}
     .gallery-grid{grid-template-columns:repeat(3,1fr);}
   }
   @media (max-width:520px){
     .gallery-grid{grid-template-columns:repeat(2,1fr);}
-    .about-photos a:nth-child(1){grid-row:auto;}
-    .about-photos a:nth-child(1) img{aspect-ratio:1/1;}
+    .dock a span.hide-mobile{display:none;}
   }
 </style>
 </head>
 <body>
 
-<div class="noise-bg"></div>
+<div class="halftone"></div>
 
-<nav id="nav">
-  <div class="container nav-inner">
-    <div class="logo">🍔 titi's<span>Burger</span></div>
-    <div class="nav-links">
-      <a href="#sobre">Sobre</a>
-      <a href="#menu">Menú</a>
-      <a href="#galeria">Galería</a>
-      <a href="#ubicacion">Ubicación</a>
-    </div>
-    <a class="btn btn-primary" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir ahora</a>
-  </div>
+<!-- ============ ROTATING STAMP LOGO ============ -->
+<a class="stamp-badge" href="#top" aria-label="Titi's Burger">
+  <svg viewBox="0 0 100 100">
+    <defs><path id="circlePath" d="M 50, 50 m -38, 0 a 38,38 0 1,1 76,0 a 38,38 0 1,1 -76,0"/></defs>
+    <circle cx="50" cy="50" r="48" fill="#faf5e9" stroke="#211712" stroke-width="3"/>
+    <text font-family="Alfa Slab One" font-size="9.2" fill="#211712" letter-spacing="1.5">
+      <textPath href="#circlePath" startOffset="0%">★ TITI'S BURGER ★ CONCEPCIÓN ★ DESDE 2026 ★</textPath>
+    </text>
+  </svg>
+  <span class="stamp-center">🍔</span>
+</a>
+
+<!-- ============ FLOATING DOCK NAV ============ -->
+<nav class="dock">
+  <a href="#top">Inicio</a>
+  <a href="#sobre"><span class="hide-mobile">Sobre</span>👋</a>
+  <a href="#menu"><span class="hide-mobile">Menú</span>🍔</a>
+  <a href="#ubicacion"><span class="hide-mobile">Mapa</span>📍</a>
+  <a class="order" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir</a>
 </nav>
 
 <!-- ================= HERO ================= -->
-<section class="hero">
-  <div class="container hero-grid">
-    <div class="reveal">
-      <span class="eyebrow">📍 Local nuevo en Concepción</span>
-      <h1>Más que una<br>hamburguesa,<br><span class="accent">es un sabor.</span></h1>
+<section class="hero" id="top">
+  <div class="container hero-inner">
+    <div class="hero-copy reveal">
+      <span class="kicker">📍 Local nuevo en Concepción</span>
+      <h1>Más que una<br>hamburguesa,<br>es un <span class="hl">sabor</span>.</h1>
       <p class="lead">Carne Angus, ingredientes premium y una trilogía que no te vas a olvidar. No somos franquicia — somos Titi's.</p>
       <div class="hero-ctas">
-        <a class="btn btn-primary" href="https://wa.me/56971025472" target="_blank" rel="noopener">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.36 5.07L2 22l5.06-1.33A9.94 9.94 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.6 0-3.1-.44-4.38-1.2l-.31-.19-3 .79.8-2.92-.2-.3A7.94 7.94 0 014 12c0-4.42 3.58-8 8-8s8 3.58 8 8-3.58 8-8 8z"/></svg>
-          Pedir por WhatsApp
-        </a>
-        <a class="btn btn-ghost" href="#ubicacion">Ver ubicación</a>
+        <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+        <a class="btn-sticker alt" href="#ubicacion">Ver ubicación</a>
       </div>
     </div>
-    <div class="hero-photo reveal">
-      <img src="assets/instagram/post-6.jpg" alt="Hamburguesa de Titi's Burger">
-      <div class="hero-badge"><span class="dot"></span><span>Abierto ahora · Concepción</span></div>
+    <div class="hero-photo-wrap reveal">
+      <div class="hero-photo">
+        <div class="open-tag">ABIERTO<br>AHORA</div>
+        <img src="assets/instagram/post-6.jpg" alt="Hamburguesa de Titi's Burger">
+      </div>
     </div>
   </div>
 </section>
 
+<!-- ============ MARQUEE ============ -->
+<div class="marquee">
+  <div class="marquee-track">
+    <span>🍔 SMASH BURGERS ★ CARNE ANGUS ★ LOCAL NUEVO EN CONCEPCIÓN ★ PEDIDOS POR WHATSAPP ★ TAMBIÉN EN PEDIDOSYA ★</span>
+    <span>🍔 SMASH BURGERS ★ CARNE ANGUS ★ LOCAL NUEVO EN CONCEPCIÓN ★ PEDIDOS POR WHATSAPP ★ TAMBIÉN EN PEDIDOSYA ★</span>
+  </div>
+</div>
+
 <!-- ================= SOBRE ================= -->
-<section id="sobre">
+<section id="sobre" class="angled-top">
   <div class="container about-grid">
-    <div class="about-photos stagger">
-      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-5.jpg" alt="La trilogía de Titi's"></a>
-      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-9.jpg" alt="Disfrutando una hamburguesa Titi's"></a>
-      <a href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-7.jpg" alt="Local de Titi's Burger en Concepción"></a>
+    <div class="about-photos reveal">
+      <img class="p1" src="assets/instagram/post-5.jpg" alt="La trilogía de Titi's">
+      <img class="p2" src="assets/instagram/post-9.jpg" alt="Disfrutando una hamburguesa Titi's">
     </div>
     <div class="about-text reveal">
       <span class="section-eyebrow">Sobre nosotros</span>
@@ -224,7 +252,7 @@
 </section>
 
 <!-- ================= MENU ================= -->
-<section id="menu" class="alt">
+<section id="menu" class="alt angled-both">
   <div class="container">
     <span class="section-eyebrow reveal">Nuestra carta</span>
     <h2 class="section-title reveal">Algunas de nuestras favoritas</h2>
@@ -264,20 +292,20 @@
     <h2 class="section-title reveal">Directo desde la cocina</h2>
     <p class="section-lead reveal">Fotos reales de @titisburger.cl.</p>
     <div class="gallery-grid stagger">
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-1.jpg" alt="Post 1"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-3.jpg" alt="Post 2"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-4.jpg" alt="Post 3"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-2.jpg" alt="Post 4"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-8.jpg" alt="Post 5"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-6.jpg" alt="Post 6"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-9.jpg" alt="Post 7"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
-      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-5.jpg" alt="Post 8"><div class="gallery-overlay"><span>Ver en Instagram</span></div></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-1.jpg" alt="Post 1"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-3.jpg" alt="Post 2"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-4.jpg" alt="Post 3"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-2.jpg" alt="Post 4"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-8.jpg" alt="Post 5"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-6.jpg" alt="Post 6"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-9.jpg" alt="Post 7"></a>
+      <a class="gallery-item" href="https://www.instagram.com/titisburger.cl/" target="_blank" rel="noopener"><img src="assets/instagram/post-5.jpg" alt="Post 8"></a>
     </div>
   </div>
 </section>
 
 <!-- ================= UBICACION ================= -->
-<section id="ubicacion" class="alt">
+<section id="ubicacion" class="alt angled-top">
   <div class="container">
     <span class="section-eyebrow reveal">Ubicación</span>
     <h2 class="section-title reveal">Visítanos o pide a domicilio</h2>
@@ -313,18 +341,9 @@
     <p class="section-lead reveal">Somos un local nuevo — aquí irán las reseñas reales de nuestros primeros clientes.</p>
 
     <div class="reviews-grid stagger">
-      <div class="review-card">
-        <div class="stars">☆☆☆☆☆</div>
-        <p>"Aquí aparecerá tu primera reseña real"</p>
-      </div>
-      <div class="review-card">
-        <div class="stars">☆☆☆☆☆</div>
-        <p>"Espacio reservado para reseñas de clientes"</p>
-      </div>
-      <div class="review-card">
-        <div class="stars">☆☆☆☆☆</div>
-        <p>"Pronto aquí — tu opinión cuenta"</p>
-      </div>
+      <div class="review-card"><div class="stars">☆☆☆☆☆</div><p>"Aquí aparecerá tu primera reseña real"</p></div>
+      <div class="review-card"><div class="stars">☆☆☆☆☆</div><p>"Espacio reservado para reseñas de clientes"</p></div>
+      <div class="review-card"><div class="stars">☆☆☆☆☆</div><p>"Pronto aquí — tu opinión cuenta"</p></div>
     </div>
     <p class="review-note">Sección de ejemplo — se reemplaza por reseñas reales apenas estén disponibles (Google, Instagram, etc.)</p>
   </div>
@@ -336,7 +355,7 @@
     <div class="cta-final reveal">
       <h2>¿Se te antojó?</h2>
       <p>Pide ahora mismo por WhatsApp — respuesta rápida, sin vueltas.</p>
-      <a class="btn btn-primary" style="display:inline-flex;" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
+      <a class="btn-sticker" href="https://wa.me/56971025472" target="_blank" rel="noopener">Pedir por WhatsApp</a>
     </div>
   </div>
 </section>
@@ -349,11 +368,6 @@
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
 
-  const nav = document.getElementById('nav');
-  window.addEventListener('scroll', () => {
-    nav.classList.toggle('scrolled', window.scrollY > 40);
-  });
-
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -361,9 +375,9 @@
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.15 });
+  }, { threshold: 0.12 });
 
-  document.querySelectorAll('.reveal, .stagger').forEach(el => observer.observe(el));
+  document.querySelectorAll('.reveal, .stagger, .tilt-in').forEach(el => observer.observe(el));
 </script>
 
 </body>
